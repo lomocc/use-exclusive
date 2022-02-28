@@ -1,4 +1,4 @@
-import { DependencyList, useEffect, useMemo, useRef, useState } from 'react';
+import { DependencyList, useEffect, useMemo, useRef, useState } from "react";
 
 export default function useExclusive<T extends (...args: any[]) => any>(
   callback: T,
@@ -11,11 +11,11 @@ export default function useExclusive<T extends (...args: any[]) => any>(
   const [isExclusive, setIsExclusive] = useState(false);
   const exclusiveFun: any = useMemo(() => {
     let isExclusiveFlag = isExclusive;
-    const f = async () => {
+    const f = async (...args: any[]) => {
       if (!isExclusiveFlag) {
         isExclusiveFlag = true;
         setIsExclusive(true);
-        const result = await callbackRef.current();
+        const result = await callbackRef.current(...args);
         setIsExclusive(false);
         return result;
       }
